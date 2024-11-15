@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="hu" data-theme="emerald">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="container mx-auto mt-10">
+
+    <div class="m-4">
+        <button class="btn btn-primary" onclick="openModal()">Új Profil Hozzáadása</button>
+    </div>
+
+    <h1 class="text-4xl mt-10">Profilok:</h1>
+    <div id="profileList" class="grid grid-cols-1 md:grid-cols-3">
+
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-box">
+            <h2 class="text-2xl font-semibold mb-4" id="modal-title">Új Profil Hozzáadása</h2>
+            <form id="newProfile-form" method="post" class="space-y-4">
+                <input type="hidden" id="profile_id" name="id" value="">
+
+                <div>
+                    <label class="label">
+                        <span class="label-text">Email</span>
+                    </label>
+                    <input type="email" id="newProfile-email" name="email" maxLength="100" class="input  w-full"
+                        placeholder="Email" required>
+                </div>
+
+                <div>
+                    <label class="label">
+                        <span class="label-text">Életkor</span>
+                    </label>
+                    <input type="number" id="newProfile-age" name="age" min="0" max="200" class="input  w-full"
+                        placeholder="Életkor" required>
+                </div>
+
+                <div class="flex justify-end">
+                    <button type="button" class="btn btn-secondary mr-2" onclick="closeModal()">Vissza</button>
+                    <button type="submit" class="btn btn-primary">Mentés</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <template id="profileTemplate">
+        <div class="m-4 p-8 rounded-xl shadow-lg w-full max-w-md">
+            <div class="text-center">
+                <form enctype="multipart/form-data" onsubmit="UploadPFP(event)" hidden>
+                    <input type="hidden" name="id" id="pfpId">
+                    <input id="pfpUpload" type="file" name="file" accept="image/*" onchange="this.form.dispatchEvent(new Event('submit', { cancelable: true }))">
+                </form>
+                <div class="avatar avatarOverlay" id="uploadPFPClicker">
+                    <div class="w-24 rounded-full">
+                        <img id="pfpImage" alt="Profile Picture"></img>
+                        <p class="avatarOverlayText">Megváltoztat</p>
+                    </div>
+                </div>
+
+                <br>
+
+                <button id="removePFP" form="removePFPForm" class="btn btn-xs btn-error mt-3" method="submit">
+                    Profilkép törlése
+                </button>
+            </div>
+            <form method="post" id="updateProfileForm" class="mt-6">
+                <input type="hidden" name="id" id="id">
+                <div class="mb-4">
+                    <label for="email" class="block text-sm font-medium">Email</label>
+                    <input type="email" id="email" name="email" required class="input w-full" maxlength="50"
+                        value="Email">
+                </div>
+                <div class="mb-4">
+                    <label for="age" class="block text-sm font-medium">Életkor</label>
+                    <input type="number" id="age" name="age" required class="input w-full" min="0" max="200" value="10">
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <button name="removeProfile" type="submit" class="btn btn-error">Törlés</button>
+                    <button name="updateProfile" type="submit" class="btn btn-primary">Változtatások mentése</button>
+                </div>
+            </form>
+        </div>
+    </template>
+
+    <form onsubmit="RemovePFP(event)" id="removePFPForm"></form>
+
+    <script src="main.js"></script>
+    <script src="modal.js"></script>
+</body>
+
+</html>
